@@ -7,7 +7,7 @@ use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Flysystem\Rackspace\RackspaceAdapter;
 use League\Flysystem\Adapter\Local as LocalAdapter;
-use League\Flysystem\AwsS3v2\AwsS3Adapter as S3Adapter;
+use League\Flysystem\AwsS3v3\AwsS3Adapter as S3Adapter;
 use Illuminate\Contracts\Filesystem\Factory as FactoryContract;
 
 class FilesystemManager implements FactoryContract {
@@ -134,7 +134,7 @@ class FilesystemManager implements FactoryContract {
 	 */
 	public function createS3Driver(array $config)
 	{
-		$s3Config = array_only($config, ['key', 'region', 'secret', 'signature', 'base_url']);
+		$s3Config = array_only($config, ['key', 'region', 'version', 'secret', 'signature', 'base_url']);
 
 		return $this->adapt(
 			new Flysystem(new S3Adapter(S3Client::factory($s3Config), $config['bucket']))
